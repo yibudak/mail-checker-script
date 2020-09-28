@@ -1,10 +1,13 @@
 import requests
 import json
 
+# 28.09.2020
+# Author: Yiğit BUDAK
+# github.com/yibudak
 
 def main():
-    url = "http://95.179.185.209:3000"
-    csv_file = open('emails.csv', 'r')
+    url = "http://localhost:3000" # Your backend IP address
+    csv_file = open('emails.csv', 'r') # Email list
     checked_mails = open('checked_emails.csv', 'a+')
     invalid_mails = open('invalid.csv', 'a+')
     unknown_mails = open('unknown.csv', 'a+')
@@ -16,7 +19,8 @@ def main():
         }
         response = requests.post(url, json=payload)
         parsed_data = json.loads(response.text)
-        print(f'{count}. request sent to {parsed_data[0]["input"]} and result is: {parsed_data[0]["is_reachable"]}')
+        print(f'{count}. request sent to {parsed_data[0]["input"]} \
+        and result is: {parsed_data[0]["is_reachable"]}')
         count += 1
         if parsed_data[0]["is_reachable"] == "invalid":
             invalid_mails.writelines(email)
@@ -32,5 +36,8 @@ def main():
     unknown_mails.close()
     print("EOF")
 
+
 if __name__ == "__main__":
     main()
+
+
